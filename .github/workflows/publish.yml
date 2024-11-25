@@ -24,12 +24,18 @@ jobs:
     - name: Debug Info
       run: |
         echo "Current directory: $(pwd)"
-        echo "Directory contents:"
+        echo "Contents of root directory:"
         ls -la
-        echo "Finding solution file (case sensitive):"
-        find . -name "ArcadeDb.Client.sln"
-        echo "Finding solution file (case insensitive):"
-        find . -iname "arcadedb.client.sln"
+        echo "Contents of src directory:"
+        ls -la src/
+        echo "Contents of src/ArcadeDb.Client directory:"
+        ls -la src/ArcadeDb.Client/
+        echo "Finding all csproj files:"
+        find . -name "*.csproj"
+        echo "Finding all sln files:"
+        find . -name "*.sln"
+        echo "Full directory tree:"
+        tree .
         
     - name: Semantic Release
       env:
@@ -37,10 +43,18 @@ jobs:
       run: semantic-release
         
     - name: Restore dependencies
-      run: dotnet restore ArcadeDb.Client.sln
+      run: |
+        # Try to restore using found solution file
+        sln_file=$(find . -name "*.sln" -type f -print -quit)
+        echo "Found solution file: $sln_file"
+        echo "Solution file contents:"
+        cat "$sln_file"
+        dotnet restore "$sln_file"
       
     - name: Build
-      run: dotnet build ArcadeDb.Client.sln --no-restore --configuration Release
+      run: |
+        sln_file=$(find . -name "*.sln" -type f -print -quit)
+        dotnet build "$sln_file" --no-restore --configuration Release
       
     - name: Create nupkg directory
       run: mkdir -p nupkgs
@@ -48,9 +62,12 @@ jobs:
     - name: Pack Projects
       run: |
         # Pack only src projects, not test projects
-        find . -path "*/src/*" -name "*.csproj" | while read -r project; do
-          echo "Packing $project"
-          dotnet pack "$project" --no-build --configuration Release --output nupkgs
+        for proj in $(find ./src -name "*.csproj"); do
+          echo "Found project: $proj"
+          echo "Project contents:"
+          cat "$proj"
+          echo "Packing $proj"
+          dotnet pack "$proj" --no-build --configuration Release --output nupkgs
         done
       
     - name: Push to NuGet
