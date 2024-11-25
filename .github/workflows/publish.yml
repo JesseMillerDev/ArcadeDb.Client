@@ -21,25 +21,34 @@ jobs:
     - name: Install semantic-release
       run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/exec
         
-    - name: Semantic Release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Show directory structure
       run: |
         pwd
         ls -la
-        semantic-release
+        find . -type f -name "*.csproj"
+        
+    - name: Semantic Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: semantic-release
         
     - name: Restore dependencies
+      working-directory: .
       run: dotnet restore
       
     - name: Build
+      working-directory: .
       run: dotnet build --no-restore --configuration Release
       
-    - name: Pack ArcadeDB.Client
-      run: dotnet pack src/ArcadeDB.Client/ArcadeDb.Client.csproj --no-build --configuration Release --output nupkgs
+    - name: Create nupkg directory
+      run: mkdir -p nupkgs
       
-    - name: Pack ArcadeDb.Client.Extras
-      run: dotnet pack src/ArcadeDb.Client.Extras/ArcadeDb.Client.Extras.csproj --no-build --configuration Release --output nupkgs
+    - name: Pack Projects
+      run: |
+        for csproj in $(find . -name "*.csproj" ! -path "*/test/*"); do
+          echo "Packing $csproj"
+          dotnet pack $csproj --no-build --configuration Release --output nupkgs
+        done
       
     - name: Push to NuGet
       run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
