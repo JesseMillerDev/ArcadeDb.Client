@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.2.0...v1.3.0) (2024-11-25)
+
+
+### Features
+
+* try again ([d48bea2](https://github.com/JesseMillerDev/ArcadeDb.Client/commit/d48bea24bb198fe2017cd84db39a43ded9ab5654))
+
 # [1.2.0](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.1.0...v1.2.0) (2024-11-25)
 
 
