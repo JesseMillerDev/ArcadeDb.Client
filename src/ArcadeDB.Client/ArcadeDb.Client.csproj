@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
         <PackageId>ArcadeDb.Client</PackageId>
-        <Version>1.4.2</Version>
+        <Version>1.4.3</Version>
         <Authors>YourName</Authors>
         <Description>A .NET client for ArcadeDb database</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
