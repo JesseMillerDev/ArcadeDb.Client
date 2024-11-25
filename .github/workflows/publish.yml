@@ -13,6 +13,11 @@ jobs:
       with:
         fetch-depth: 0 # Important for versioning
     
+    - name: Fix directory case
+      run: |
+        mv src/ArcadeDB.Client src/ArcadeDb.Client.tmp || true
+        mv src/ArcadeDb.Client.tmp src/ArcadeDb.Client || true
+        
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
@@ -24,18 +29,12 @@ jobs:
     - name: Debug Info
       run: |
         echo "Current directory: $(pwd)"
-        echo "Contents of root directory:"
-        ls -la
-        echo "Contents of src directory:"
+        echo "Contents of src directory after fix:"
         ls -la src/
         echo "Contents of src/ArcadeDb.Client directory:"
         ls -la src/ArcadeDb.Client/
         echo "Finding all csproj files:"
         find . -name "*.csproj"
-        echo "Finding all sln files:"
-        find . -name "*.sln"
-        echo "Full directory tree:"
-        tree .
         
     - name: Semantic Release
       env:
@@ -43,18 +42,10 @@ jobs:
       run: semantic-release
         
     - name: Restore dependencies
-      run: |
-        # Try to restore using found solution file
-        sln_file=$(find . -name "*.sln" -type f -print -quit)
-        echo "Found solution file: $sln_file"
-        echo "Solution file contents:"
-        cat "$sln_file"
-        dotnet restore "$sln_file"
+      run: dotnet restore ArcadeDb.Client.sln
       
     - name: Build
-      run: |
-        sln_file=$(find . -name "*.sln" -type f -print -quit)
-        dotnet build "$sln_file" --no-restore --configuration Release
+      run: dotnet build ArcadeDb.Client.sln --no-restore --configuration Release
       
     - name: Create nupkg directory
       run: mkdir -p nupkgs
@@ -63,9 +54,6 @@ jobs:
       run: |
         # Pack only src projects, not test projects
         for proj in $(find ./src -name "*.csproj"); do
-          echo "Found project: $proj"
-          echo "Project contents:"
-          cat "$proj"
           echo "Packing $proj"
           dotnet pack "$proj" --no-build --configuration Release --output nupkgs
         done
