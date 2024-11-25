@@ -1,3 +1,10 @@
+## [1.4.1](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.4.0...v1.4.1) (2024-11-25)
+
+
+### Bug Fixes
+
+* normalize solution filename casing ([aee53fc](https://github.com/JesseMillerDev/ArcadeDb.Client/commit/aee53fc1bec50417390a490f1b6d574a86f32365))
+
 # [1.4.0](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.3.0...v1.4.0) (2024-11-25)
 
 
