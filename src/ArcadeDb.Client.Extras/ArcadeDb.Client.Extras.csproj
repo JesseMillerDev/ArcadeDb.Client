@@ -5,6 +5,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
+        <PackageId>ArcadeDb.Client.Extras</PackageId>
+        <Version>0.0.0</Version>
+        <Authors>YourName</Authors>
+        <Description>Additional features for ArcadeDb.Client including NodaTime integration</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>YourProjectUrl</PackageProjectUrl>
+        <RepositoryUrl>YourRepositoryUrl</RepositoryUrl>
+        <PackageTags>arcadedb;database;client;nodatime</PackageTags>
     </PropertyGroup>
 
     <ItemGroup>
@@ -14,6 +22,7 @@
     <ItemGroup>
       <PackageReference Include="NodaTime" Version="3.0.7" />
       <PackageReference Include="NodaTime.Serialization.SystemTextJson" Version="1.0.0" />
+      <None Include="../../readme.md" Pack="true" PackagePath="/"/>
     </ItemGroup>
 
 </Project>

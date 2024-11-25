@@ -1,0 +1,42 @@
+name: Publish to NuGet
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0 # Important for versioning
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+        
+    - name: Install semantic-release
+      run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/exec
+        
+    - name: Semantic Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: semantic-release
+        
+    - name: Restore dependencies
+      run: dotnet restore
+      
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+      
+    - name: Pack ArcadeDb.Client
+      run: dotnet pack src/ArcadeDb.Client/ArcadeDb.Client.csproj --no-build --configuration Release --output nupkgs
+      
+    - name: Pack ArcadeDb.Client.Extras
+      run: dotnet pack src/ArcadeDb.Client.Extras/ArcadeDb.Client.Extras.csproj --no-build --configuration Release --output nupkgs
+      
+    - name: Push to NuGet
+      run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
