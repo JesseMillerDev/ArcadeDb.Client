@@ -6,7 +6,7 @@
         <Nullable>enable</Nullable>
         <LangVersion>10</LangVersion>
         <PackageId>ArcadeDb.Client.Extras</PackageId>
-        <Version>1.0.0</Version>
+        <Version>1.1.0</Version>
         <Authors>YourName</Authors>
         <Description>Additional features for ArcadeDb.Client including NodaTime integration</Description>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
