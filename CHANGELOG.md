@@ -1,3 +1,10 @@
+## [1.4.5](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.4.4...v1.4.5) (2024-11-25)
+
+
+### Bug Fixes
+
+* .net version ([4c6d289](https://github.com/JesseMillerDev/ArcadeDb.Client/commit/4c6d2896f0948cf481d00d91489e7b6d731197f9))
+
 ## [1.4.4](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.4.3...v1.4.4) (2024-11-25)
 
 
