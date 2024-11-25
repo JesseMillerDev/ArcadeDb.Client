@@ -13,7 +13,7 @@ public class ArcadeServerTests : IDisposable
     public async Task CanListDatabases()
     {
         var databases = await this.target.ListDatabases();
-        databases.Should().HaveCountGreaterOrEqualTo(1).And.Contain("movies");
+        databases.Should().HaveCountGreaterThan(1).And.Contain("movies");
     }
 
     private readonly ArcadeServer target;
