@@ -1,3 +1,10 @@
+## [1.4.2](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.4.1...v1.4.2) (2024-11-25)
+
+
+### Bug Fixes
+
+* gitignore ([3e67a30](https://github.com/JesseMillerDev/ArcadeDb.Client/commit/3e67a305b95d2d8502a80b5c41b74d1ee111b57b))
+
 ## [1.4.1](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.4.0...v1.4.1) (2024-11-25)
 
 
