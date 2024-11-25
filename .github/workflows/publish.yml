@@ -21,11 +21,15 @@ jobs:
     - name: Install semantic-release
       run: npm install -g semantic-release @semantic-release/git @semantic-release/changelog @semantic-release/exec
         
-    - name: Show directory structure
+    - name: Debug Info
       run: |
-        pwd
+        echo "Current directory: $(pwd)"
+        echo "Directory contents:"
         ls -la
-        find . -type f -name "*.csproj"
+        echo "Finding solution file:"
+        find . -name "*.sln"
+        echo "Finding project files:"
+        find . -name "*.csproj"
         
     - name: Semantic Release
       env:
@@ -33,21 +37,25 @@ jobs:
       run: semantic-release
         
     - name: Restore dependencies
-      working-directory: .
-      run: dotnet restore
+      run: |
+        solution_file=$(find . -name "*.sln" -type f -print -quit)
+        echo "Using solution file: $solution_file"
+        dotnet restore "$solution_file"
       
     - name: Build
-      working-directory: .
-      run: dotnet build --no-restore --configuration Release
+      run: |
+        solution_file=$(find . -name "*.sln" -type f -print -quit)
+        dotnet build "$solution_file" --no-restore --configuration Release
       
     - name: Create nupkg directory
       run: mkdir -p nupkgs
       
     - name: Pack Projects
       run: |
-        for csproj in $(find . -name "*.csproj" ! -path "*/test/*"); do
-          echo "Packing $csproj"
-          dotnet pack $csproj --no-build --configuration Release --output nupkgs
+        # Pack only src projects, not test projects
+        find . -path "*/src/*" -name "*.csproj" | while read -r project; do
+          echo "Packing $project"
+          dotnet pack "$project" --no-build --configuration Release --output nupkgs
         done
       
     - name: Push to NuGet
