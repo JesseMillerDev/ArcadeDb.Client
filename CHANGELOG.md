@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.1.0...v1.2.0) (2024-11-25)
+
+
+### Features
+
+* whitespace to kick off build ([5f773e0](https://github.com/JesseMillerDev/ArcadeDb.Client/commit/5f773e059dda6ede3cc6ceb0506cb820ab5ce3fa))
+
 # [1.1.0](https://github.com/JesseMillerDev/ArcadeDb.Client/compare/v1.0.0...v1.1.0) (2024-11-25)
 
 
