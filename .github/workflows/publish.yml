@@ -26,10 +26,10 @@ jobs:
         echo "Current directory: $(pwd)"
         echo "Directory contents:"
         ls -la
-        echo "Finding solution file:"
-        find . -name "*.sln"
-        echo "Finding project files:"
-        find . -name "*.csproj"
+        echo "Finding solution file (case sensitive):"
+        find . -name "ArcadeDb.Client.sln"
+        echo "Finding solution file (case insensitive):"
+        find . -iname "arcadedb.client.sln"
         
     - name: Semantic Release
       env:
@@ -37,15 +37,10 @@ jobs:
       run: semantic-release
         
     - name: Restore dependencies
-      run: |
-        solution_file=$(find . -name "*.sln" -type f -print -quit)
-        echo "Using solution file: $solution_file"
-        dotnet restore "$solution_file"
+      run: dotnet restore ArcadeDb.Client.sln
       
     - name: Build
-      run: |
-        solution_file=$(find . -name "*.sln" -type f -print -quit)
-        dotnet build "$solution_file" --no-restore --configuration Release
+      run: dotnet build ArcadeDb.Client.sln --no-restore --configuration Release
       
     - name: Create nupkg directory
       run: mkdir -p nupkgs
