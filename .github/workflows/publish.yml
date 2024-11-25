@@ -24,7 +24,10 @@ jobs:
     - name: Semantic Release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: semantic-release
+      run: |
+        pwd
+        ls -la
+        semantic-release
         
     - name: Restore dependencies
       run: dotnet restore
@@ -32,11 +35,11 @@ jobs:
     - name: Build
       run: dotnet build --no-restore --configuration Release
       
-    - name: Pack ArcadeDb.Client
-      run: dotnet pack src/ArcadeDb.Client/ArcadeDb.Client.csproj --no-build --configuration Release --output nupkgs
+    - name: Pack ArcadeDB.Client
+      run: dotnet pack src/ArcadeDB.Client/ArcadeDb.Client.csproj --no-build --configuration Release --output nupkgs
       
     - name: Pack ArcadeDb.Client.Extras
       run: dotnet pack src/ArcadeDb.Client.Extras/ArcadeDb.Client.Extras.csproj --no-build --configuration Release --output nupkgs
       
     - name: Push to NuGet
-      run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
+      run: dotnet nuget push "nupkgs/*.nupkg" --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json --skip-duplicate
